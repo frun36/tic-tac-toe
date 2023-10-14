@@ -3,14 +3,17 @@
 
 #include <iostream>
 
+typedef enum _FieldState {EMPTY, O, X} FieldState;
+
 class Board {
     private:
-        unsigned char fields[3][3];
+        FieldState fields[3][3];
     
     public:
         Board();
 
         void print_board();
+        void set_field(size_t, size_t, FieldState);
 };
 
 #endif
