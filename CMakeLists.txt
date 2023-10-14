@@ -25,3 +25,12 @@ target_compile_options(${TARGET_NAME}
 
 # Set default build type to `Debug`
 set(CMAKE_BUILD_TYPE Debug)
+
+# Enable CTest
+enable_testing()
+
+# Add memory test with Valgrind
+add_test(
+    NAME mem
+    COMMAND valgrind --leak-check=full --track-origins=yes --error-exitcode=1 ./${TARGET_NAME}
+)
