@@ -1,5 +1,6 @@
 #include <iostream>
 #include "board.hpp"
+#include "game.hpp"
 
 int main(void) {
     std::cout << "Hellou" << std::endl;

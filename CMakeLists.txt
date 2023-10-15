@@ -13,7 +13,7 @@ project(${PROJECT_NAME} VERSION 1.0 LANGUAGES CXX)
 include_directories(include)
 
 # Get all source .cpp files and add them to the executable target
-file(GLOB SRC_FILES "src/*.cpp")
+file(GLOB_RECURSE SRC_FILES "src/*.cpp")
 add_executable(${TARGET_NAME} ${SRC_FILES})
 
 # Set compiler flags based on build type
