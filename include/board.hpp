@@ -5,6 +5,9 @@
 
 typedef enum _FieldState {EMPTY, O, X} FieldState;
 
+/**
+ * @brief Takes care of basic operations on the game board
+*/
 class Board {
     private:
         FieldState fields[3][3];

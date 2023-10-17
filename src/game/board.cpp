@@ -4,8 +4,16 @@ Board::Board() {
     for (size_t i = 0; i < 3; i++)
         for (size_t j = 0; j < 3; j++)
             this->fields[i][j] = EMPTY;
+    std::cout << "Initialized new empty board" << std::endl;
 }
 
+/**
+ * @brief Sets specified field in desired `FieldState`
+ * 
+ * @param i - row index [0-2]
+ * @param j - column index [0-2]
+ * @param state - desired `FieldState`
+*/
 void Board::set_field(size_t i, size_t j, FieldState state) {
     this->fields[i][j] = state;
 }
