@@ -3,7 +3,7 @@
 #include "game.hpp"
 
 int main(void) {
-    std::cout << "Hellou" << std::endl;
+    std::cout << "Hellou from another device" << std::endl;
     Board board;
     board.print_board();
     board.set_field(0, 1, X);
