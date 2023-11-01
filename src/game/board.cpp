@@ -18,6 +18,10 @@ void Board::set_field(size_t i, size_t j, FieldState state) {
     this->fields[i][j] = state;
 }
 
+FieldState Board::get_field(size_t i, size_t j) {
+    return this->fields[i][j];
+}
+
 void Board::print_board() {
     for (size_t i = 0; i < 3; i++) {
         for (size_t j = 0; j < 3; j++) {

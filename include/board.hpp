@@ -16,7 +16,8 @@ class Board {
         Board();
 
         void print_board();
-        void set_field(size_t, size_t, FieldState);
+        void set_field(size_t i, size_t j, FieldState);
+        FieldState get_field(size_t i, size_t j);
         FieldState check_rows();
         FieldState check_cols();
         FieldState check_diags();
