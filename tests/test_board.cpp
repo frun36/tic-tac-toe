@@ -2,29 +2,31 @@
 #include "board.hpp"
 #include "game.hpp"
 
-int this_passes() {
-    if (2 + 3 == 5) {
-        std::cout << "Test passed";
-        return 0;
-    }
-    else {
-        std::cout << "Test failed";
-        return 1;
-    }
+using namespace std;
+
+int x_check(Board board) {
+    return (board.check_cols() == X && board.check_rows() == X && board.check_diags() == X);
 }
 
-int this_fails() {
-    if (2 + 3 == 6) {
-        std::cout << "Test passed";
-        return 0;
-    }
-    else {
-        std::cout << "Test failed";
-        return 1;
-    }
+int o_check(Board board) {
+    return (board.check_cols() == O && board.check_rows() == O && board.check_diags() == O);
 }
+
 
 int main() {
-    return this_passes() || 
-           this_fails();
+    Board board_x, board_o, board_alt;
+    for(size_t i = 0; i < 3; i++) {
+        for(size_t j = 0; j < 3; j++) {
+            board_x.set_field(i, j, X);
+            board_o.set_field(i, j, O);
+            board_alt.set_field(i, j, i + j % 2 == 0 ? X : O);
+        }
+    }
+
+    return x_check(board_x) | 
+          !x_check(board_o) | 
+          !o_check(board_x) | 
+          o_check(board_o);//  |
+        //   !x_check(board_alt) |
+        //   !o_check(board_alt);
 }

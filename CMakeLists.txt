@@ -21,7 +21,8 @@ include_directories(include)
 
 # Get all source .cpp files and add them to the executable target
 file(GLOB_RECURSE SRC_FILES "src/*.cpp")
-add_executable(${TARGET_NAME} ${SRC_FILES})
+list(FILTER SRC_FILES EXCLUDE REGEX "main.cpp$")
+add_executable(${TARGET_NAME} ${SRC_FILES} "src/main.cpp")
 
 # Set compiler flags based on build type
 target_compile_options(${TARGET_NAME}
@@ -46,7 +47,7 @@ add_test(
 file(GLOB_RECURSE TEST_FILES "tests/*.cpp")
 foreach(TEST_FILE ${TEST_FILES})
     get_filename_component(TEST_NAME ${TEST_FILE} NAME_WE)
-    add_executable(${TEST_NAME} ${TEST_FILE})
+    add_executable(${TEST_NAME} ${TEST_FILE} ${SRC_FILES})
     add_test(NAME ${TEST_NAME} COMMAND ./${TEST_NAME})
 endforeach()
 
