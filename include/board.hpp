@@ -1,14 +1,16 @@
 #ifndef BOARD_HPP
 #define BOARD_HPP
 
+#include <cstddef>
 #include <iostream>
 
 namespace board {
     typedef enum _FieldState {
-        EMPTY,
+        Empty,
         O,
         X
     } FieldState;
+    std::ostream &operator << (std::ostream& os, FieldState fs);
 
     /**
      * @brief Takes care of basic operations on the game board
