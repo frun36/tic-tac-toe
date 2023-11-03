@@ -19,14 +19,11 @@ int main() {
         for(size_t j = 0; j < 3; j++) {
             board_x.set_field(i, j, X);
             board_o.set_field(i, j, O);
-            board_alt.set_field(i, j, i + j % 2 == 0 ? X : O);
         }
     }
 
-    return x_check(board_x) | 
+    return !(x_check(board_x) | 
           !x_check(board_o) | 
           !o_check(board_x) | 
-          o_check(board_o);//  |
-        //   !x_check(board_alt) |
-        //   !o_check(board_alt);
+          o_check(board_o));
 }
