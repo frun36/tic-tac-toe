@@ -1,10 +1,13 @@
 #include "board.hpp"
 
+using namespace board;
+using namespace std;
+
 Board::Board() {
     for (size_t i = 0; i < 3; i++)
         for (size_t j = 0; j < 3; j++)
             this->fields[i][j] = EMPTY;
-    std::cout << "Initialized new empty board" << std::endl;
+    cout << "Initialized new empty board" << endl;
 }
 
 /**
@@ -27,20 +30,20 @@ void Board::print_board() {
         for (size_t j = 0; j < 3; j++) {
             switch (this->fields[i][j]) {
                 case EMPTY:
-                    std::cout << "-";
+                    cout << "-";
                     break;
                 case O:
-                    std::cout << "O";
+                    cout << "O";
                     break;
                 case X:
-                    std::cout << "X";
+                    cout << "X";
                     break;
                 default:
                     return;
             }
-            std::cout << " ";
+            cout << " ";
         }
-        std::cout << std::endl;
+        cout << endl;
     }
 }
 

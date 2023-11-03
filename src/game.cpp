@@ -1,5 +1,9 @@
 #include "game.hpp"
 
+using namespace board;
+using namespace game;
+using namespace std;
+
 Game::Game(Player x_player, Player o_player) : x_player(x_player), o_player(o_player) {
-    std::cout << "New game started" << std::endl;
+    cout << "New game started" << endl;
 }

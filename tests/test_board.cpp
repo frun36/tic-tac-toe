@@ -3,6 +3,7 @@
 #include "game.hpp"
 
 using namespace std;
+using namespace board;
 
 int x_check(Board board) {
     return (board.check_cols() == X && board.check_rows() == X && board.check_diags() == X);
