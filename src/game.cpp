@@ -20,14 +20,18 @@ ostream &game::operator << (ostream& os, Player player) {
     return os;
 }
 
-Game::Game(Player x_player, Player o_player) : x_player(x_player), o_player(o_player) {
-    cout << "New game initialized" << endl;
-}
-
 void Game::start_game() {
     cout << "Game between: " << endl << "X: " << this->x_player << endl << "O: " << this->o_player << endl;
     this->move_count = 0;
     this->move();
+}
+
+void game::Game::set_x_player(Player player) {
+    this->x_player = player;
+}
+
+void game::Game::set_o_player(Player player) {
+    this->o_player = player;
 }
 
 void Game::move() {

@@ -17,11 +17,9 @@ namespace board {
      */
     class Board {
     private:
-        FieldState fields[3][3];
+        FieldState fields[3][3] = {};
 
     public:
-        Board();
-
         void print_board();
         void set_field(size_t i, size_t j, FieldState);
         FieldState get_field(size_t i, size_t j);

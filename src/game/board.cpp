@@ -21,14 +21,6 @@ std::ostream &board::operator << (std::ostream& os, FieldState fs) {
     return os;
 }
 
-
-Board::Board() {
-    for (size_t i = 0; i < 3; i++)
-        for (size_t j = 0; j < 3; j++)
-            this->fields[i][j] = FieldState::Empty;
-    cout << "Initialized new empty board" << endl;
-}
-
 /**
  * @brief Sets specified field in desired `FieldState`
  * 

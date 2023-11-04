@@ -13,14 +13,15 @@ namespace game {
      * @brief Class managing current game
     */
     class Game {
-        private:
-            board::Board board;
-            size_t move_count;
-            Player x_player;
-            Player o_player;
-            void move();
-        public:
-            Game(Player, Player);
-            void start_game();
+    private:
+        board::Board board;
+        size_t move_count = 0;
+        Player x_player = Player::Human;
+        Player o_player = Player::Human;
+        void move();
+    public:
+        void start_game();
+        void set_x_player(Player);
+        void set_o_player(Player);
     };
 }
