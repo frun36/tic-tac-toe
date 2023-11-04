@@ -4,15 +4,15 @@
 using namespace board;
 using namespace std;
 
-std::ostream &board::operator << (std::ostream& os, FieldState fs) {
+std::ostream &board::operator << (std::ostream& os, Symbol fs) {
     switch(fs) {
-        case FieldState::Empty:
+        case Symbol::None:
             os << "-";
             break;
-        case FieldState::O:
+        case Symbol::O:
             os << "O";
             break;
-        case FieldState::X:
+        case Symbol::X:
             os << "X";
             break;
         default:
@@ -22,17 +22,17 @@ std::ostream &board::operator << (std::ostream& os, FieldState fs) {
 }
 
 /**
- * @brief Sets specified field in desired `FieldState`
+ * @brief Sets specified field in desired `Symbol`
  * 
  * @param i - row index [0-2]
  * @param j - column index [0-2]
- * @param state - desired `FieldState`
+ * @param state - desired `Symbol`
 */
-void Board::set_field(size_t i, size_t j, FieldState state) {
+void Board::set_field(size_t i, size_t j, Symbol state) {
     this->fields[i][j] = state;
 }
 
-FieldState Board::get_field(size_t i, size_t j) {
+Symbol Board::get_field(size_t i, size_t j) {
     return this->fields[i][j];
 }
 
@@ -45,32 +45,32 @@ void Board::print_board() {
     }
 }
 
-FieldState Board::check_rows() {
-    FieldState winner;
+Symbol Board::check_rows() {
+    Symbol winner;
     for (size_t i = 0; i < 3; i++) {
         winner = this->fields[i][0];
-        if (winner != FieldState::Empty && winner == this->fields[i][1] && winner == this->fields[i][2]) {
+        if (winner != Symbol::None && winner == this->fields[i][1] && winner == this->fields[i][2]) {
             return winner;
         }
     }
-    return FieldState::Empty;
+    return Symbol::None;
 }
 
-FieldState Board::check_cols() {
-    FieldState winner;
+Symbol Board::check_cols() {
+    Symbol winner;
     for (size_t j = 0; j < 3; j++) {
         winner = this->fields[0][j];
-        if (winner != FieldState::Empty && winner == this->fields[1][j] && winner == this->fields[2][j]) {
+        if (winner != Symbol::None && winner == this->fields[1][j] && winner == this->fields[2][j]) {
             return winner;
         }
     }
-    return FieldState::Empty;
+    return Symbol::None;
 }
 
-FieldState Board::check_diags() {
-    FieldState winner = this->fields[1][1];
-    if (winner != FieldState::Empty && ((winner == this->fields[0][0] && winner == this->fields[2][2]) || (winner == this->fields[0][2] && winner == this->fields[2][0]))) {
+Symbol Board::check_diags() {
+    Symbol winner = this->fields[1][1];
+    if (winner != Symbol::None && ((winner == this->fields[0][0] && winner == this->fields[2][2]) || (winner == this->fields[0][2] && winner == this->fields[2][0]))) {
         return winner;
     }
-    return FieldState::Empty;
+    return Symbol::None;
 }

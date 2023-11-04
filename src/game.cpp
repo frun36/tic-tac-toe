@@ -1,4 +1,5 @@
 #include "game.hpp"
+
 #include <iostream>
 #include <string>
 
@@ -6,12 +7,12 @@ using namespace board;
 using namespace game;
 using namespace std;
 
-ostream &game::operator << (ostream& os, Player player) {
-    switch(player) {
-        case Player::Human:
+ostream& game::operator<<(ostream& os, PlayerMode player) {
+    switch (player) {
+        case PlayerMode::Human:
             os << "Human";
             break;
-        case Player::Computer:
+        case PlayerMode::Computer:
             os << "Computer";
             break;
         default:
@@ -20,30 +21,79 @@ ostream &game::operator << (ostream& os, Player player) {
     return os;
 }
 
-void Game::start_game() {
-    cout << "Game between: " << endl << "X: " << this->x_player << endl << "O: " << this->o_player << endl;
-    this->move_count = 0;
-    this->move();
+std::tuple<size_t, size_t> Game::player_move() {
+    cout << "Enter field number (1-9): ";
+    size_t field_nr, i, j;
+    cin >> field_nr;
+    i = (field_nr - 1) / 3;
+    j = (field_nr - 1) % 3;
+    return make_tuple(i, j);
 }
 
-void game::Game::set_x_player(Player player) {
-    this->x_player = player;
+std::tuple<size_t, size_t> Game::computer_move() {
+    return std::tuple<size_t, size_t>();
 }
 
-void game::Game::set_o_player(Player player) {
-    this->o_player = player;
-}
-
-void Game::move() {
-    this->board.print_board();
-    size_t curr_player = move_count % 2;
-
-    cout << "Move!" << endl;
-
-    this->move_count++;
-    if(move_count >= 9) {
-        cout << "End of game" << endl;
-        return;
+bool Game::verify_move(std::tuple<size_t, size_t> move) {
+    if (this->board.get_field(get<0>(move), get<1>(move)) != Symbol::None) {
+        return false;
+    } else {
+        return true;
     }
-    this->move();
+}
+
+Symbol Game::check_board() {
+    Symbol cols = this->board.check_cols();
+    Symbol rows = this->board.check_rows();
+    Symbol diags = this->board.check_diags();
+    if (cols != Symbol::None) {
+        return cols;
+    }
+    if (rows != Symbol::None) {
+        return rows;
+    }
+    if (diags != Symbol::None) {
+        return diags;
+    }
+    return Symbol::None;
+}
+
+Symbol Game::play() {
+    cout << "Game between:\nX: " << this->x_player_mode << "\nO: " << this->o_player_mode << endl;
+    for (; this->move_count < 9; this->move_count++) {
+        Symbol curr_player_symbol = this->move_count % 2 == 0 ? Symbol::X : Symbol::O;
+        PlayerMode curr_player_mode = curr_player_symbol == Symbol::X ? this->x_player_mode : this->o_player_mode;
+        tuple<size_t, size_t> curr_move;
+
+        cout << curr_player_symbol << "'s move" << endl;
+        this->board.print_board();
+
+        do {
+            if (curr_player_mode == PlayerMode::Human) {
+                curr_move = this->player_move();
+            } else {
+                curr_move = this->computer_move();
+            }
+        } while (!this->verify_move(curr_move));
+
+        this->board.set_field(get<0>(curr_move), get<1>(curr_move), curr_player_symbol);
+
+        Symbol winner = this->check_board();
+        if (winner != Symbol::None) {
+            this->board.print_board();
+            cout << winner << " wins!" << endl;
+            return winner;
+        }
+    }
+
+    cout << "It's a draw!" << endl;
+    return Symbol::None;
+}
+
+void game::Game::set_x_player_mode(PlayerMode player) {
+    this->x_player_mode = player;
+}
+
+void game::Game::set_o_player_mode(PlayerMode player) {
+    this->o_player_mode = player;
 }
