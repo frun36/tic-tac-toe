@@ -1,3 +1,6 @@
+#ifndef GAME_HPP
+#define GAME_HPP
+
 #include <cstddef>
 #include <iostream>
 #include <tuple>
@@ -32,3 +35,5 @@ class Game {
     void set_o_player_mode(PlayerMode);
 };
 }  // namespace game
+
+#endif

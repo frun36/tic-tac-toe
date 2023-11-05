@@ -1,4 +1,5 @@
 #include "game.hpp"
+#include "computer.hpp"
 
 #include <iostream>
 #include <string>
@@ -31,7 +32,8 @@ Coordinates Game::player_move() {
 }
 
 Coordinates Game::computer_move() {
-    return Coordinates (0, 0);
+    computer::Computer computer;
+    return computer.make_move();
 }
 
 bool Game::verify_move(Coordinates coordinates) {
@@ -80,13 +82,14 @@ Symbol Game::play() {
 
         Symbol winner = this->check_board();
         if (winner != Symbol::None) {
-            this->board.print_board();
             cout << winner << " wins!" << endl;
+            this->board.print_board();
             return winner;
         }
     }
 
     cout << "It's a draw!" << endl;
+    this->board.print_board();
     return Symbol::None;
 }
 
