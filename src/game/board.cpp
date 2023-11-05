@@ -28,12 +28,12 @@ std::ostream &board::operator << (std::ostream& os, Symbol fs) {
  * @param j - column index [0-2]
  * @param state - desired `Symbol`
 */
-void Board::set_field(size_t i, size_t j, Symbol state) {
-    this->fields[i][j] = state;
+void Board::set_field(Coordinates coordinates, Symbol state) {
+    this->fields[coordinates.i][coordinates.j] = state;
 }
 
-Symbol Board::get_field(size_t i, size_t j) {
-    return this->fields[i][j];
+Symbol Board::get_field(Coordinates coordinates) {
+    return this->fields[coordinates.i][coordinates.j];
 }
 
 void Board::print_board() {

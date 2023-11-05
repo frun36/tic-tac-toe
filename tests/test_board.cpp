@@ -18,8 +18,8 @@ int main() {
     Board board_x, board_o, board_alt;
     for(size_t i = 0; i < 3; i++) {
         for(size_t j = 0; j < 3; j++) {
-            board_x.set_field(i, j, X);
-            board_o.set_field(i, j, O);
+            board_x.set_field(Coordinates (i, j), X);
+            board_o.set_field(Coordinates (i, j), O);
         }
     }
 

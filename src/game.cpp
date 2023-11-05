@@ -21,21 +21,21 @@ ostream& game::operator<<(ostream& os, PlayerMode player) {
     return os;
 }
 
-std::tuple<size_t, size_t> Game::player_move() {
+Coordinates Game::player_move() {
     cout << "Enter field number (1-9): ";
     size_t field_nr, i, j;
     cin >> field_nr;
     i = (field_nr - 1) / 3;
     j = (field_nr - 1) % 3;
-    return make_tuple(i, j);
+    return Coordinates (i, j);
 }
 
-std::tuple<size_t, size_t> Game::computer_move() {
-    return std::tuple<size_t, size_t>();
+Coordinates Game::computer_move() {
+    return Coordinates (0, 0);
 }
 
-bool Game::verify_move(std::tuple<size_t, size_t> move) {
-    if (this->board.get_field(get<0>(move), get<1>(move)) != Symbol::None) {
+bool Game::verify_move(Coordinates coordinates) {
+    if (this->board.get_field(coordinates) != Symbol::None) {
         return false;
     } else {
         return true;
@@ -63,7 +63,7 @@ Symbol Game::play() {
     for (; this->move_count < 9; this->move_count++) {
         Symbol curr_player_symbol = this->move_count % 2 == 0 ? Symbol::X : Symbol::O;
         PlayerMode curr_player_mode = curr_player_symbol == Symbol::X ? this->x_player_mode : this->o_player_mode;
-        tuple<size_t, size_t> curr_move;
+        Coordinates curr_move (0, 0);
 
         cout << curr_player_symbol << "'s move" << endl;
         this->board.print_board();
@@ -76,7 +76,7 @@ Symbol Game::play() {
             }
         } while (!this->verify_move(curr_move));
 
-        this->board.set_field(get<0>(curr_move), get<1>(curr_move), curr_player_symbol);
+        this->board.set_field(curr_move, curr_player_symbol);
 
         Symbol winner = this->check_board();
         if (winner != Symbol::None) {

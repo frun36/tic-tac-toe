@@ -21,9 +21,9 @@ class Game {
     size_t move_count = 0;
     PlayerMode x_player_mode = PlayerMode::Human;
     PlayerMode o_player_mode = PlayerMode::Human;
-    std::tuple<size_t, size_t> player_move();
-    std::tuple<size_t, size_t> computer_move();
-    bool verify_move(std::tuple<size_t, size_t>);
+    board::Coordinates player_move();
+    board::Coordinates computer_move();
+    bool verify_move(board::Coordinates);
     board::Symbol check_board();
 
    public:
