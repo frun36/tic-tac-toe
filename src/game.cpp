@@ -6,9 +6,8 @@
 
 using namespace board;
 using namespace game;
-using namespace std;
 
-ostream& game::operator<<(ostream& os, PlayerMode player_mode) {
+std::ostream& game::operator<<(std::ostream& os, PlayerMode player_mode) {
     switch (player_mode) {
         case PlayerMode::Human:
             os << "Human";
@@ -23,9 +22,9 @@ ostream& game::operator<<(ostream& os, PlayerMode player_mode) {
 }
 
 Coordinates Game::player_move() {
-    cout << "Enter field number (1-9): ";
+    std::cout << "Enter field number (1-9): ";
     size_t field_nr, i, j;
-    cin >> field_nr;
+    std::cin >> field_nr;
     i = (field_nr - 1) / 3;
     j = (field_nr - 1) % 3;
     return Coordinates (i, j);
@@ -33,7 +32,7 @@ Coordinates Game::player_move() {
 
 Coordinates Game::computer_move(std::optional<computer::Computer> computer_opt) {
     if(!computer_opt.has_value()) {
-        cerr << "Error: No computer found for current player. Making random move\n";
+        std::cerr << "Error: No computer found for current player. Making random move\n";
         size_t i = rand() % 3;
         size_t j = rand() % 3;
         return board::Coordinates(i, j);
@@ -67,13 +66,13 @@ Symbol Game::check_board() {
 }
 
 Symbol Game::play() {
-    cout << "Game between:\nX: " << this->x_player_mode << "\nO: " << this->o_player_mode << endl;
+    std::cout << "Game between:\nX: " << this->x_player_mode << "\nO: " << this->o_player_mode << '\n';
     for (; this->move_count < 9; this->move_count++) {
         Symbol curr_player_symbol = this->move_count % 2 == 0 ? Symbol::X : Symbol::O;
         PlayerMode curr_player_mode = curr_player_symbol == Symbol::X ? this->x_player_mode : this->o_player_mode;
         Coordinates curr_move (0, 0);
 
-        cout << curr_player_symbol << "'s move" << endl;
+        std::cout << curr_player_symbol << "'s move\n";
         this->board.print_board();
 
         do {
@@ -88,13 +87,13 @@ Symbol Game::play() {
 
         Symbol winner = this->check_board();
         if (winner != Symbol::None) {
-            cout << winner << " wins!" << endl;
+            std::cout << winner << " wins\n";
             this->board.print_board();
             return winner;
         }
     }
 
-    cout << "It's a draw!" << endl;
+    std::cout << "It's a draw!\n";
     this->board.print_board();
     return Symbol::None;
 }

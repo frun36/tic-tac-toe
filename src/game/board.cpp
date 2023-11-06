@@ -2,7 +2,6 @@
 #include <iostream>
 
 using namespace board;
-using namespace std;
 
 std::ostream &board::operator << (std::ostream& os, Symbol fs) {
     switch(fs) {
@@ -39,9 +38,9 @@ Symbol Board::get_field(Coordinates coordinates) {
 void Board::print_board() {
     for (size_t i = 0; i < 3; i++) {
         for (size_t j = 0; j < 3; j++) {
-            cout << this->fields[i][j] << " ";
+            std::cout << this->fields[i][j] << " ";
         }
-        cout << endl;
+        std::cout << '\n';
     }
 }
 
