@@ -21,7 +21,7 @@ Computer::Computer(bool force) {
     f.close();
 }
 
-bool is_winning(int position, size_t move_count) {
+bool computer::entry_is_winning(int position, size_t move_count) {
     if (move_count < 4) {
         return false;
     }
@@ -33,7 +33,7 @@ bool is_winning(int position, size_t move_count) {
     return board.check_cols() == curr_symbol || board.check_rows() == curr_symbol || board.check_diags() == curr_symbol;
 }
 
-int pow(int base, unsigned int exponent) {
+int computer::pow(int base, unsigned int exponent) {
     int result = 1;
     while (exponent > 0) {
         if (exponent % 2 == 0) {
@@ -48,11 +48,11 @@ int pow(int base, unsigned int exponent) {
     return result;
 }
 
-int nth_digit(int num, int n) {
+int computer::nth_digit(int num, int n) {
     return (num / pow(10, n)) % 10;
 }
 
-bool is_in_number(int num, int digit) {
+bool computer::is_in_number(int num, int digit) {
     for (size_t i = 0; i < 9; i++) {
         if (digit == nth_digit(num, i)) {
             return true;
@@ -61,7 +61,7 @@ bool is_in_number(int num, int digit) {
     return false;
 }
 
-void generate_tree(std::ofstream &f, int position, size_t move_count) {
+void computer::generate_tree(std::ofstream &f, int position, size_t move_count) {
     if (move_count >= 9) {
         return;
     }
@@ -71,7 +71,7 @@ void generate_tree(std::ofstream &f, int position, size_t move_count) {
         }
         int new_position = position + i * pow(10, 8 - move_count);
         f << new_position;
-        if (is_winning(new_position, move_count)) {
+        if (entry_is_winning(new_position, move_count)) {
             f << (move_count % 2 == 0 ? "X\n" : "O\n");
             return;
         } else if (move_count >= 8) {
@@ -80,7 +80,7 @@ void generate_tree(std::ofstream &f, int position, size_t move_count) {
         } else {
             f << "?\n";
         }
-        
+
         generate_tree(f, new_position, move_count + 1);
     }
 }
