@@ -4,11 +4,15 @@
 #include <cstddef>
 #include <iostream>
 #include <optional>
+#include <memory>
 
 #include "board.hpp"
 #include "computer.hpp"
 
 namespace game {
+
+typedef std::optional<computer::Computer*> ComputerCell;
+
 /**
  * @brief Enum showing whether current player is to be human or an AI opponent
  */
@@ -24,11 +28,11 @@ class Game {
     board::Board board;
     size_t move_count = 0;
     PlayerMode x_player_mode = PlayerMode::Human;
-    std::optional<computer::Computer> x_computer;
+    ComputerCell x_computer;
     PlayerMode o_player_mode = PlayerMode::Human;
-    std::optional<computer::Computer> o_computer;
+    ComputerCell o_computer;
     board::Coordinates player_move();
-    board::Coordinates computer_move(std::optional<computer::Computer>);
+    board::Coordinates computer_move(board::Symbol player);
     bool verify_move(board::Coordinates);
     board::Symbol check_board();
 

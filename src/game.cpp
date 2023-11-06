@@ -23,20 +23,28 @@ std::ostream& game::operator<<(std::ostream& os, PlayerMode player_mode) {
 
 Coordinates Game::player_move() {
     std::cout << "Enter field number (1-9): ";
-    size_t field_nr, i, j;
+    size_t field_nr;
     std::cin >> field_nr;
     return Coordinates (field_nr);
 }
 
-Coordinates Game::computer_move(std::optional<computer::Computer> computer_opt) {
+Coordinates Game::computer_move(Symbol player) {
+    ComputerCell computer_opt;
+    if(player == Symbol::X) {
+        computer_opt = this->x_computer;
+    } else {
+        computer_opt = this->o_computer;
+    }
+    
     if(!computer_opt.has_value()) {
         std::cerr << "Error: No computer found for current player. Making random move\n";
         size_t i = rand() % 3;
         size_t j = rand() % 3;
         return board::Coordinates(i, j);
     }
-    computer::Computer computer = computer_opt.value();
-    return computer.make_move();
+    auto computer = computer_opt.value();
+    std::cout << "Calling computer to move\n";
+    return computer->make_move(this->board);
 }
 
 bool Game::verify_move(Coordinates coordinates) {
@@ -77,7 +85,7 @@ Symbol Game::play() {
             if (curr_player_mode == PlayerMode::Human) {
                 curr_move = this->player_move();
             } else {
-                curr_move = this->computer_move((curr_player_symbol == Symbol::X ? this->x_computer : this->o_computer));
+                curr_move = this->computer_move(curr_player_symbol);
             }
         } while (!this->verify_move(curr_move));
 
@@ -99,7 +107,7 @@ Symbol Game::play() {
 void game::Game::set_x_player_mode(PlayerMode player_mode) {
     this->x_player_mode = player_mode;
     if(player_mode == PlayerMode::Computer) {
-        this->x_computer = computer::Computer(true);
+        this->x_computer = new computer::Computer(Symbol::X, true);
     } else {
         this->x_computer = {};
     }
@@ -108,7 +116,7 @@ void game::Game::set_x_player_mode(PlayerMode player_mode) {
 void game::Game::set_o_player_mode(PlayerMode player_mode) {
     this->o_player_mode = player_mode;
     if(player_mode == PlayerMode::Computer) {
-        this->o_computer = computer::Computer(false);
+        this->o_computer = new computer::Computer(Symbol::O, false);
     } else {
         this->o_computer = {};
     }

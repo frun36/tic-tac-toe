@@ -6,7 +6,13 @@
 using namespace board;
 using namespace computer;
 
-Computer::Computer(bool force) {
+Computer::Computer(Symbol symbol, bool force) {
+    this->symbol = symbol;
+    this->move_count = symbol == Symbol::X ? 0 : 1;
+
+    std::cout << "Hello. I'm the mightiest tic-tac-toe player you will ever face. Prepare to die. \n";
+    std::cout << "I shall destroy you playing as " << this->symbol << ".\n";
+
     const char *fname = "game_tree";
     if (!force) {
         std::ifstream f(fname);
@@ -19,9 +25,11 @@ Computer::Computer(bool force) {
     std::ofstream f(fname);
     generate_tree(f, 0, 0);
     f.close();
+
+    std::cout << "I've regenerated my database and am ready to annihilate you.\n";
 }
 
-bool computer::entry_is_winning(int position, size_t move_count) {
+bool computer::position_is_winning(int position, size_t move_count) {
     if (move_count < 4) {
         return false;
     }
@@ -71,7 +79,7 @@ void computer::generate_tree(std::ofstream &f, int position, size_t move_count) 
         }
         int new_position = position + i * pow(10, 8 - move_count);
         f << new_position;
-        if (entry_is_winning(new_position, move_count)) {
+        if (position_is_winning(new_position, move_count)) {
             f << (move_count % 2 == 0 ? "X\n" : "O\n");
             return;
         } else if (move_count >= 8) {
@@ -85,9 +93,31 @@ void computer::generate_tree(std::ofstream &f, int position, size_t move_count) 
     }
 }
 
-Coordinates Computer::make_move() {
-    std::cout << "Hahaha I'm the greatest player in the world\n";
-    size_t i = rand() % 3;
-    size_t j = rand() % 3;
-    return board::Coordinates(i, j);
+Coordinates Computer::make_move(board::Board board) {
+    this->update_position(board);
+    size_t new_field;
+    do {
+        new_field = rand() % 9 + 1;
+    } while (is_in_number(this->position, new_field));
+    this->position += new_field * pow(10, 8 - move_count);
+    std::cout << "New position: " << this->position << '\n';
+    this->move_count += 2;
+    return board::Coordinates(new_field);
+}
+
+void computer::Computer::update_position(board::Board board) {
+    if (this->move_count == 0) {
+        return;
+    }
+
+    for (size_t field = 1; field <= 9; field++) {
+        if (board.get_field(Coordinates(field)) != Symbol::None && !is_in_number(this->position, field)) {
+            std::cout << "Previous position: " << this->position << '\n';
+            this->position += field * pow(10, 8 - move_count + 1);
+            std::cout << "Current position: " << this->position << '\n';
+            return;
+        }
+    }
+
+    std::cerr << "Error: couldn't update position\n";
 }
