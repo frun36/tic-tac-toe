@@ -102,7 +102,7 @@ Symbol Game::play() {
 void game::Game::set_x_player_mode(PlayerMode player_mode) {
     this->x_player_mode = player_mode;
     if(player_mode == PlayerMode::Computer) {
-        this->x_computer = computer::Computer();
+        this->x_computer = computer::Computer(true);
     } else {
         this->x_computer = {};
     }
@@ -111,7 +111,7 @@ void game::Game::set_x_player_mode(PlayerMode player_mode) {
 void game::Game::set_o_player_mode(PlayerMode player_mode) {
     this->o_player_mode = player_mode;
     if(player_mode == PlayerMode::Computer) {
-        this->o_computer = computer::Computer();
+        this->o_computer = computer::Computer(false);
     } else {
         this->o_computer = {};
     }
