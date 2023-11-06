@@ -3,9 +3,10 @@
 
 #include <cstddef>
 #include <iostream>
-#include <tuple>
+#include <optional>
 
 #include "board.hpp"
+#include "computer.hpp"
 
 namespace game {
 /**
@@ -23,9 +24,11 @@ class Game {
     board::Board board;
     size_t move_count = 0;
     PlayerMode x_player_mode = PlayerMode::Human;
+    std::optional<computer::Computer> x_computer;
     PlayerMode o_player_mode = PlayerMode::Human;
+    std::optional<computer::Computer> o_computer;
     board::Coordinates player_move();
-    board::Coordinates computer_move();
+    board::Coordinates computer_move(std::optional<computer::Computer>);
     bool verify_move(board::Coordinates);
     board::Symbol check_board();
 

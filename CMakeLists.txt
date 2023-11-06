@@ -11,7 +11,7 @@ endif ()
 
 # Set CMake version and C++ standard
 cmake_minimum_required(VERSION 3.22)
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 
 # Set the project name and version
 project(${PROJECT_NAME} VERSION 1.0 LANGUAGES CXX)

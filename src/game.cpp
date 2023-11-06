@@ -8,8 +8,8 @@ using namespace board;
 using namespace game;
 using namespace std;
 
-ostream& game::operator<<(ostream& os, PlayerMode player) {
-    switch (player) {
+ostream& game::operator<<(ostream& os, PlayerMode player_mode) {
+    switch (player_mode) {
         case PlayerMode::Human:
             os << "Human";
             break;
@@ -31,8 +31,14 @@ Coordinates Game::player_move() {
     return Coordinates (i, j);
 }
 
-Coordinates Game::computer_move() {
-    computer::Computer computer;
+Coordinates Game::computer_move(std::optional<computer::Computer> computer_opt) {
+    if(!computer_opt.has_value()) {
+        cerr << "Error: No computer found for current player. Making random move\n";
+        size_t i = rand() % 3;
+        size_t j = rand() % 3;
+        return board::Coordinates(i, j);
+    }
+    computer::Computer computer = computer_opt.value();
     return computer.make_move();
 }
 
@@ -74,7 +80,7 @@ Symbol Game::play() {
             if (curr_player_mode == PlayerMode::Human) {
                 curr_move = this->player_move();
             } else {
-                curr_move = this->computer_move();
+                curr_move = this->computer_move((curr_player_symbol == Symbol::X ? this->x_computer : this->o_computer));
             }
         } while (!this->verify_move(curr_move));
 
@@ -93,10 +99,20 @@ Symbol Game::play() {
     return Symbol::None;
 }
 
-void game::Game::set_x_player_mode(PlayerMode player) {
-    this->x_player_mode = player;
+void game::Game::set_x_player_mode(PlayerMode player_mode) {
+    this->x_player_mode = player_mode;
+    if(player_mode == PlayerMode::Computer) {
+        this->x_computer = computer::Computer();
+    } else {
+        this->x_computer = {};
+    }
 }
 
-void game::Game::set_o_player_mode(PlayerMode player) {
-    this->o_player_mode = player;
+void game::Game::set_o_player_mode(PlayerMode player_mode) {
+    this->o_player_mode = player_mode;
+    if(player_mode == PlayerMode::Computer) {
+        this->o_computer = computer::Computer();
+    } else {
+        this->o_computer = {};
+    }
 }
