@@ -25,9 +25,7 @@ Coordinates Game::player_move() {
     std::cout << "Enter field number (1-9): ";
     size_t field_nr, i, j;
     std::cin >> field_nr;
-    i = (field_nr - 1) / 3;
-    j = (field_nr - 1) % 3;
-    return Coordinates (i, j);
+    return Coordinates (field_nr);
 }
 
 Coordinates Game::computer_move(std::optional<computer::Computer> computer_opt) {

@@ -16,7 +16,8 @@ struct Coordinates {
     size_t i;
     size_t j;
 
-    inline Coordinates(size_t i, size_t j) : i(i), j(j) {};
+    Coordinates(size_t i, size_t j) : i(i), j(j) {};
+    Coordinates(size_t field_nr) : i((field_nr - 1) / 3), j((field_nr - 1) % 3) {};
 };
 
 /**
