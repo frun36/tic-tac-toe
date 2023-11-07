@@ -40,6 +40,7 @@ class Game {
     board::Symbol play();
     void set_x_player_mode(PlayerMode);
     void set_o_player_mode(PlayerMode);
+    ~Game();
 };
 }  // namespace game
 

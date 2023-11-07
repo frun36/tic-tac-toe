@@ -129,3 +129,13 @@ void game::Game::set_o_player_mode(PlayerMode player_mode) {
         this->o_computer = {};
     }
 }
+
+Game::~Game() {
+    if(this->x_computer.has_value()) {
+        delete this->x_computer.value();
+    }
+
+    if(this->o_computer.has_value()) {
+        delete this->o_computer.value();
+    }
+}
