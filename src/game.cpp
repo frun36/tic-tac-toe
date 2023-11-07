@@ -1,8 +1,10 @@
 #include "game.hpp"
-#include "computer.hpp"
 
+#include <chrono>
 #include <iostream>
 #include <string>
+
+#include "computer.hpp"
 
 using namespace board;
 using namespace game;
@@ -25,18 +27,18 @@ Coordinates Game::player_move() {
     std::cout << "Enter field number (1-9): ";
     size_t field_nr;
     std::cin >> field_nr;
-    return Coordinates (field_nr);
+    return Coordinates(field_nr);
 }
 
 Coordinates Game::computer_move(Symbol player) {
     ComputerCell computer_opt;
-    if(player == Symbol::X) {
+    if (player == Symbol::X) {
         computer_opt = this->x_computer;
     } else {
         computer_opt = this->o_computer;
     }
-    
-    if(!computer_opt.has_value()) {
+
+    if (!computer_opt.has_value()) {
         std::cerr << "Error: No computer found for current player. Making random move\n";
         size_t i = rand() % 3;
         size_t j = rand() % 3;
@@ -76,11 +78,14 @@ Symbol Game::play() {
     for (; this->move_count < 9; this->move_count++) {
         Symbol curr_player_symbol = this->move_count % 2 == 0 ? Symbol::X : Symbol::O;
         PlayerMode curr_player_mode = curr_player_symbol == Symbol::X ? this->x_player_mode : this->o_player_mode;
-        Coordinates curr_move (0, 0);
+        Coordinates curr_move(0, 0);
 
         std::cout << curr_player_symbol << "'s move\n";
         this->board.print_board();
 
+        auto us = std::chrono::duration_cast<std::chrono::microseconds>(
+                      std::chrono::system_clock::now().time_since_epoch())
+                      .count();
         do {
             if (curr_player_mode == PlayerMode::Human) {
                 curr_move = this->player_move();
@@ -88,6 +93,9 @@ Symbol Game::play() {
                 curr_move = this->computer_move(curr_player_symbol);
             }
         } while (!this->verify_move(curr_move));
+        std::cout << "Move time: "
+                  << (std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - us) / 1000.
+                  << " ms\n";
 
         this->board.set_field(curr_move, curr_player_symbol);
 
@@ -106,7 +114,7 @@ Symbol Game::play() {
 
 void game::Game::set_x_player_mode(PlayerMode player_mode) {
     this->x_player_mode = player_mode;
-    if(player_mode == PlayerMode::Computer) {
+    if (player_mode == PlayerMode::Computer) {
         this->x_computer = new computer::Computer(Symbol::X, true);
     } else {
         this->x_computer = {};
@@ -115,7 +123,7 @@ void game::Game::set_x_player_mode(PlayerMode player_mode) {
 
 void game::Game::set_o_player_mode(PlayerMode player_mode) {
     this->o_player_mode = player_mode;
-    if(player_mode == PlayerMode::Computer) {
+    if (player_mode == PlayerMode::Computer) {
         this->o_computer = new computer::Computer(Symbol::O, false);
     } else {
         this->o_computer = {};
