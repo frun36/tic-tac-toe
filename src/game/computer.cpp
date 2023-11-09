@@ -3,6 +3,8 @@
 #include <cstdlib>
 #include <fstream>
 
+#define BUFFER_SIZE 1024
+
 using namespace board;
 using namespace computer;
 
@@ -96,13 +98,21 @@ void computer::generate_tree(std::ofstream &f, int position, size_t move_count) 
 Coordinates Computer::make_move(board::Board board) {
     this->update_position(board);
     size_t new_field;
+    
+    // Take the center if available
+    if(board.get_field(Coordinates(5)) == Symbol::None) {
+        return Coordinates(5);
+    }
+    
     do {
         new_field = rand() % 9 + 1;
     } while (is_in_number(this->position, new_field));
+
+    // Update computer knowledge and return chosen move
     this->position += new_field * pow(10, 8 - move_count);
     std::cout << "New position: " << this->position << '\n';
     this->move_count += 2;
-    return board::Coordinates(new_field);
+    return Coordinates(new_field);
 }
 
 void computer::Computer::update_position(board::Board board) {
