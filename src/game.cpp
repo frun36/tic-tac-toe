@@ -124,7 +124,7 @@ void game::Game::set_x_player_mode(PlayerMode player_mode) {
 void game::Game::set_o_player_mode(PlayerMode player_mode) {
     this->o_player_mode = player_mode;
     if (player_mode == PlayerMode::Computer) {
-        this->o_computer = new computer::Computer(Symbol::O, false);
+        this->o_computer = new computer::Computer(Symbol::O);
     } else {
         this->o_computer = {};
     }
