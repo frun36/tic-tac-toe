@@ -16,8 +16,10 @@ struct Coordinates {
     size_t i;
     size_t j;
 
-    Coordinates(size_t i, size_t j) : i(i), j(j) {};
-    Coordinates(size_t field_nr) : i((field_nr - 1) / 3), j((field_nr - 1) % 3) {};
+    Coordinates(size_t i, size_t j)
+        : i(i), j(j){};
+    Coordinates(size_t field_nr)
+        : i((field_nr - 1) / 3), j((field_nr - 1) % 3){};
 };
 
 /**
@@ -30,12 +32,12 @@ class Board {
                            {Symbol::None, Symbol::None, Symbol::None}};
 
    public:
-    void print_board();
+    void print_board() const;
     void set_field(Coordinates coordinates, Symbol);
-    Symbol get_field(Coordinates coordinates);
-    Symbol check_rows();
-    Symbol check_cols();
-    Symbol check_diags();
+    Symbol get_field(Coordinates coordinates) const;
+    Symbol check_rows() const;
+    Symbol check_cols() const;
+    Symbol check_diags() const;
 };
 }  // namespace board
 
