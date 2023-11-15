@@ -33,8 +33,8 @@ class Game {
     ComputerCell o_computer;
     board::Coordinates player_move();
     board::Coordinates computer_move(board::Symbol player);
-    bool verify_move(board::Coordinates);
-    board::Symbol check_board();
+    bool verify_move(board::Coordinates) const;
+    board::Symbol check_board() const;
 
    public:
     board::Symbol play();

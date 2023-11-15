@@ -49,7 +49,7 @@ Coordinates Game::computer_move(Symbol player) {
     return computer->make_move(this->board);
 }
 
-bool Game::verify_move(Coordinates coordinates) {
+bool Game::verify_move(Coordinates coordinates) const {
     if (this->board.get_field(coordinates) != Symbol::None) {
         return false;
     } else {
@@ -57,7 +57,7 @@ bool Game::verify_move(Coordinates coordinates) {
     }
 }
 
-Symbol Game::check_board() {
+Symbol Game::check_board() const {
     Symbol cols = this->board.check_cols();
     Symbol rows = this->board.check_rows();
     Symbol diags = this->board.check_diags();
